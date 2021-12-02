@@ -24,4 +24,31 @@ const getBoardsSchema = {
   },
 };
 
-module.exports = { getBoardsSchema };
+const createBoardSchema = {
+  body: {
+    type: 'object',
+    required: ['title', 'columns'],
+    properties: {
+      title: { type: 'string', minLength: 3 },
+      columns: {
+        type: 'array',
+        items: {
+          type: 'object',
+          required: ['title', 'order'],
+          properties: {
+            title: { type: 'string' },
+            order: { type: 'number' },
+          },
+        },
+      },
+    },
+  },
+  response: {
+    [STATUS_CODES.CREATED]: {
+      type: 'object',
+      properties: BOARD,
+    },
+  },
+};
+
+module.exports = { getBoardsSchema, createBoardSchema };
