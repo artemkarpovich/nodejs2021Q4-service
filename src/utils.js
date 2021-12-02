@@ -5,7 +5,7 @@ function generateStatusCodes() {
     (accumulator, currentValue) => {
       const statusCodeValue = STATUS_CODES[currentValue];
 
-      const key = statusCodeValue.split(' ').join('_');
+      const key = statusCodeValue.split(' ').join('_').toUpperCase();
 
       accumulator[key] = Number(currentValue);
       return accumulator;
