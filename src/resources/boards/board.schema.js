@@ -60,6 +60,34 @@ const createBoardSchema = {
   },
 };
 
+const updateBoardSchema = {
+  body: {
+    type: 'object',
+    required: ['title', 'columns'],
+    properties: {
+      title: { type: 'string', minLength: 3 },
+      columns: {
+        type: 'array',
+        items: {
+          type: 'object',
+          required: ['title', 'order'],
+          properties: {
+            id: { type: 'string' },
+            title: { type: 'string' },
+            order: { type: 'number' },
+          },
+        },
+      },
+    },
+  },
+  response: {
+    [STATUS_CODES.OK]: {
+      type: 'object',
+      properties: BOARD,
+    },
+  },
+};
+
 const deleteBoardSchema = {
   response: {
     [STATUS_CODES.OK]: {
@@ -78,4 +106,5 @@ module.exports = {
   createBoardSchema,
   getBoardSchema,
   deleteBoardSchema,
+  updateBoardSchema,
 };

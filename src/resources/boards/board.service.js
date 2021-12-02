@@ -12,6 +12,8 @@ const createBoard = (board) => {
   return newBoard;
 };
 
+const updateBoard = (board) => boardsRepo.update(board);
+
 const deleteBoard = (id) => boardsRepo.removeById(id);
 
-module.exports = { getAll, getBoard, createBoard, deleteBoard };
+module.exports = { getAll, getBoard, createBoard, updateBoard, deleteBoard };
