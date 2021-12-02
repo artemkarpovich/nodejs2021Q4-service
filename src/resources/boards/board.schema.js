@@ -24,6 +24,15 @@ const getBoardsSchema = {
   },
 };
 
+const getBoardSchema = {
+  response: {
+    [STATUS_CODES.OK]: {
+      type: 'object',
+      properties: BOARD,
+    },
+  },
+};
+
 const createBoardSchema = {
   body: {
     type: 'object',
@@ -51,4 +60,22 @@ const createBoardSchema = {
   },
 };
 
-module.exports = { getBoardsSchema, createBoardSchema };
+const deleteBoardSchema = {
+  response: {
+    [STATUS_CODES.OK]: {
+      type: 'object',
+      properties: {
+        ok: {
+          type: 'boolean',
+        },
+      },
+    },
+  },
+};
+
+module.exports = {
+  getBoardsSchema,
+  createBoardSchema,
+  getBoardSchema,
+  deleteBoardSchema,
+};

@@ -7,6 +7,20 @@ async function getBoards(req, reply) {
   reply.send(boards);
 }
 
+async function getBoard(req, reply) {
+  const { boardId } = req.params;
+  const board = await boardsService.getBoard(boardId);
+
+  if (!board) {
+    reply.status(STATUS_CODES.NOT_FOUND).send({
+      message: `Board with ${boardId} ins't found`,
+      error: 'NOT_FOUND',
+    });
+  }
+
+  reply.send(board);
+}
+
 async function createBoard(req, reply) {
   const { title, columns } = req.body;
 
@@ -15,7 +29,24 @@ async function createBoard(req, reply) {
   reply.status(STATUS_CODES.CREATED).send(newUser);
 }
 
+async function deleteBoard(req, reply) {
+  const { boardId } = req.params;
+
+  const result = await boardsService.deleteBoard(boardId);
+
+  if (!result) {
+    reply.status(STATUS_CODES.NOT_FOUND).send({
+      message: `Board with ${boardId} ins't found`,
+      error: 'NOT_FOUND',
+    });
+  }
+
+  reply.send({ ok: result });
+}
+
 module.exports = {
   getBoards,
+  getBoard,
   createBoard,
+  deleteBoard,
 };
