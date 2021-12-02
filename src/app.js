@@ -12,7 +12,7 @@ fastify.register(require('fastify-swagger'), {
   },
 });
 
-const userRoutes = require('./resources/users/user.router');
+const userRoutes = require('./resources/users/user.routes');
 
 fastify.register(userRoutes);
 
