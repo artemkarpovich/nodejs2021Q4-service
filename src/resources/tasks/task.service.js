@@ -31,4 +31,14 @@ const createTask = async (
   return newTask;
 };
 
-module.exports = { getTasksByBoardId, getTaskByBoardId, createTask };
+const updateTask = (boardId, taskId) => tasksRepo.update(taskId);
+
+const deleteTask = (boardId, taskId) => tasksRepo.removeById(taskId);
+
+module.exports = {
+  getTasksByBoardId,
+  getTaskByBoardId,
+  createTask,
+  deleteTask,
+  updateTask,
+};

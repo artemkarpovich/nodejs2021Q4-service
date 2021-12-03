@@ -1,9 +1,9 @@
-const boardsService = require('./task.service');
+const tasksService = require('./task.service');
 const { STATUS_CODES } = require('../../common/config');
 
 async function getTasks(req, reply) {
   const { boardId } = req.params;
-  const tasks = await boardsService.getTasksByBoardId(boardId);
+  const tasks = await tasksService.getTasksByBoardId(boardId);
 
   reply.send(tasks);
 }
@@ -11,7 +11,7 @@ async function getTasks(req, reply) {
 async function getTask(req, reply) {
   const { boardId, taskId } = req.params;
 
-  const task = await boardsService.getTaskByBoardId(boardId, taskId);
+  const task = await tasksService.getTaskByBoardId(boardId, taskId);
 
   if (!task) {
     reply.status(STATUS_CODES.NOT_FOUND).send({
@@ -27,7 +27,7 @@ async function createTask(req, reply) {
   const { boardId } = req.params;
   const { title, order, description } = req.body;
 
-  const newTask = await boardsService.createTask(boardId, {
+  const newTask = await tasksService.createTask(boardId, {
     title,
     order,
     description,
@@ -36,4 +36,40 @@ async function createTask(req, reply) {
   reply.status(STATUS_CODES.CREATED).send(newTask);
 }
 
-module.exports = { getTasks, createTask, getTask };
+async function updateTask(req, reply) {
+  const { boardId, taskId } = req.params;
+  const { title, description, order } = req.body;
+
+  const updatedTask = await tasksService.updateTask(boardId, {
+    id: taskId,
+    title,
+    order,
+    description,
+  });
+
+  if (!updatedTask) {
+    reply.status(STATUS_CODES.NOT_FOUND).send({
+      message: `Task with boardId ${boardId} and taskId ${taskId} ins't found`,
+      error: 'NOT_FOUND',
+    });
+  }
+
+  reply.status(STATUS_CODES.OK).send(updatedTask);
+}
+
+async function deleteTask(req, reply) {
+  const { boardId, taskId } = req.params;
+
+  const result = await tasksService.deleteTask(boardId, taskId);
+
+  if (!result) {
+    reply.status(STATUS_CODES.NOT_FOUND).send({
+      message: `Board with boardId ${boardId} and taskId ${taskId}  ins't found`,
+      error: 'NOT_FOUND',
+    });
+  }
+
+  reply.send({ ok: result });
+}
+
+module.exports = { getTasks, createTask, getTask, deleteTask, updateTask };

@@ -7,7 +7,7 @@ const TASK = {
   description: { type: 'string' },
   userId: { type: 'string', nullable: true },
   boardId: { type: 'string' },
-  columnId: { columnId: 'string' },
+  columnId: { type: 'string', nullable: true },
 };
 
 const getTasksSchema = {
@@ -49,8 +49,41 @@ const createTaskSchema = {
   },
 };
 
+const updateTaskSchema = {
+  body: {
+    type: 'object',
+    required: ['title', 'description', 'order'],
+    properties: {
+      title: { type: 'string', minLength: 3 },
+      description: { type: 'string', minLength: 3 },
+      order: { type: 'number' },
+    },
+  },
+  response: {
+    [STATUS_CODES.OK]: {
+      type: 'object',
+      properties: TASK,
+    },
+  },
+};
+
+const deleteTaskSchema = {
+  response: {
+    [STATUS_CODES.OK]: {
+      type: 'object',
+      properties: {
+        ok: {
+          type: 'boolean',
+        },
+      },
+    },
+  },
+};
+
 module.exports = {
   getTasksSchema,
   getTaskSchema,
   createTaskSchema,
+  updateTaskSchema,
+  deleteTaskSchema,
 };
