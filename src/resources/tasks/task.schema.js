@@ -22,6 +22,15 @@ const getTasksSchema = {
   },
 };
 
+const getTaskSchema = {
+  response: {
+    [STATUS_CODES.OK]: {
+      type: 'object',
+      properties: TASK,
+    },
+  },
+};
+
 const createTaskSchema = {
   body: {
     type: 'object',
@@ -42,5 +51,6 @@ const createTaskSchema = {
 
 module.exports = {
   getTasksSchema,
+  getTaskSchema,
   createTaskSchema,
 };

@@ -7,7 +7,11 @@ const getTasksByBoardId = async (boardId) => {
   return tasks.filter((task) => task.boardId === boardId);
 };
 
-const getTask = (id) => tasksRepo.findById(id);
+const getTaskByBoardId = async (boardId, taskId) => {
+  const tasks = await tasksRepo.findAll();
+
+  return tasks.find((task) => task.id === taskId && task.boardId === boardId);
+};
 
 const createTask = async (
   boardId,
@@ -27,4 +31,4 @@ const createTask = async (
   return newTask;
 };
 
-module.exports = { getTasksByBoardId, getTask, createTask };
+module.exports = { getTasksByBoardId, getTaskByBoardId, createTask };
