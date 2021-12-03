@@ -29,12 +29,25 @@ async function update(updatedBoard) {
   return tasksDb.get(updatedBoard.id);
 }
 
-async function deleteManyByBoardId(boardId) {
+async function deleteMany(boardId) {
   const tasks = await findAll();
 
   tasks
     .filter((task) => task.boardId === boardId)
     .forEach((task) => removeById(task.id));
+}
+
+async function updateMany(userId) {
+  const tasks = await findAll();
+
+  tasks
+    .filter((task) => task.userId === userId)
+    .forEach((task) => {
+      tasksDb.set(task.id, {
+        ...tasksDb.get(task.id),
+        userId: null,
+      });
+    });
 }
 
 module.exports = {
@@ -43,5 +56,6 @@ module.exports = {
   findAll,
   removeById,
   update,
-  deleteManyByBoardId,
+  deleteMany,
+  updateMany,
 };

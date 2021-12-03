@@ -17,7 +17,7 @@ const updateBoard = (board) => boardsRepo.update(board);
 
 const deleteBoard = async (id) => {
   const result = await boardsRepo.removeById(id);
-  await tasksRepo.deleteManyByBoardId(id);
+  await tasksRepo.deleteMany(id);
 
   return result;
 };
