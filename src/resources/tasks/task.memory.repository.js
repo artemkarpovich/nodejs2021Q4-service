@@ -29,4 +29,19 @@ async function update(updatedBoard) {
   return tasksDb.get(updatedBoard.id);
 }
 
-module.exports = { findById, insert, findAll, removeById, update };
+async function deleteManyByBoardId(boardId) {
+  const tasks = await findAll();
+
+  tasks
+    .filter((task) => task.boardId === boardId)
+    .forEach((task) => removeById(task.id));
+}
+
+module.exports = {
+  findById,
+  insert,
+  findAll,
+  removeById,
+  update,
+  deleteManyByBoardId,
+};
